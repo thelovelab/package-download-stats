@@ -5,14 +5,13 @@ format:
     self-contained: true
 execute:
   echo: false
+  message: false
 ---
 
 The following show average downloads from unique IPs averaged over the months of Jan-Apr, per year.
 
 ```{r}
 #| label: setup
-#| message: false
-#| warning: false
 library(BiocPkgTools)
 library(dplyr)
 library(lubridate)
@@ -22,9 +21,11 @@ library(ggplot2)
 ```{r}
 #| label: load-data
 pkgs <- c(
-  "DESeq2","tximport","tximeta",
-  "plyranges","nullranges","plyxp"
-) 
+  "DESeq2","apeglm",
+  "tximport","tximeta",
+  "plyranges","nullranges",
+  "plyxp"
+)
 
 bioc <- biocDownloadStats() |>
   filter(pkgType == "software") |>
@@ -34,7 +35,6 @@ bioc <- biocDownloadStats() |>
 
 ```{r}
 #| label: compute-stats
-
 # focus on Jan-Apr
 stats <- bioc |>
   filter(Month %in% c("Jan", "Feb", "Mar", "Apr")) |>
