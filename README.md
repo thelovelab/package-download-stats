@@ -1,2 +1,3 @@
-# package-download-stats
-Love Lab Package Download Stats
+# Love Lab Package Download Stats
+
+MIT License

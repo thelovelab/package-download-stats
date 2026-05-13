@@ -1,0 +1,80 @@
+---
+title: "Love Lab Package Download Stats"
+format:
+  html:
+    self-contained: true
+execute:
+  echo: false
+---
+
+The following show average downloads from unique IPs averaged over the months of Jan-Apr, per year.
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(BiocPkgTools)
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+```
+
+```{r}
+#| label: load-data
+pkgs <- c(
+  "DESeq2","tximport","tximeta",
+  "plyranges","nullranges","plyxp"
+) 
+
+bioc <- biocDownloadStats() |>
+  filter(pkgType == "software") |>
+  filter(Package %in% pkgs) |>
+  filter(!is.na(Date))
+```
+
+```{r}
+#| label: compute-stats
+
+# focus on Jan-Apr
+stats <- bioc |>
+  filter(Month %in% c("Jan", "Feb", "Mar", "Apr")) |>
+  group_by(Package, Year) |>
+  summarise(
+    Avg_DLs = mean(Nb_of_distinct_IPs, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(Year)
+```
+
+```{r}
+#| label: plot
+#| fig-alt: "Line plot of average Jan-Apr distinct IPs by year"
+pkg_order <- stats |>
+  filter(Year == max(Year)) |>
+  arrange(desc(Avg_DLs)) |>
+  pull(Package)
+
+stats |>
+  filter(Avg_DLs > 0) |>
+  mutate(Package = factor(Package, levels = pkg_order)) |>
+  ggplot(aes(
+    Year, Avg_DLs, 
+    linetype = Package, color = Package, group = Package)
+  ) +
+  geom_line() +
+  scale_y_log10()
+```
+
+```{r}
+#| label: table
+stats |>
+  filter(Year %in% c(2025, 2026)) |>
+  select(Package, Year, Avg_DLs) |>
+  tidyr::pivot_wider(names_from = Year, values_from = Avg_DLs) |>
+  mutate(pct_change = round((`2026` - `2025`) / `2025` * 100, 1)) |>
+  arrange(desc(`2026`)) |>
+  knitr::kable(
+    col.names = c("Package", "2025", "2026", "% Change"),
+    digits = 0
+  )
+```
