@@ -22,9 +22,9 @@ jobs:
         with:
           version: "1.6.42"
 
-      - name: Install any extra packages
+      - name: Install any extra/missing packages
         run: |
-          Rscript -e "BiocManager::install(c('BiocPkgTools'), ask=FALSE)"
+          Rscript -e "BiocManager::install(c('BiocPkgTools', 'ggplot2', 'dplyr', 'lubridate', 'tidyr', 'knitr'), ask=FALSE)"
 
       - name: Render
         run: quarto render
