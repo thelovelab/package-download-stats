@@ -6,9 +6,12 @@ format:
 execute:
   echo: false
   message: false
+  warning: false
+  fig-align: center
 ---
 
-The following show average downloads from unique IPs averaged over the months of Jan-Apr, per year.
+[Average Bioc package downloads](https://bioconductor.org/packages/stats/index.html) 
+from unique IPs, averaged over months of Jan-Apr:
 
 ```{r}
 #| label: setup
@@ -20,13 +23,13 @@ library(ggplot2)
 
 ```{r}
 #| label: load-data
+#| cache: true
 pkgs <- c(
   "DESeq2","apeglm",
   "tximport","tximeta",
   "plyranges","nullranges",
   "plyxp"
 )
-
 bioc <- biocDownloadStats() |>
   filter(pkgType == "software") |>
   filter(Package %in% pkgs) |>
@@ -55,14 +58,20 @@ pkg_order <- stats |>
   pull(Package)
 
 stats |>
-  filter(Avg_DLs > 0) |>
+  filter(Year >= 2016) |>
+  filter(Avg_DLs > 10) |>
   mutate(Package = factor(Package, levels = pkg_order)) |>
   ggplot(aes(
     Year, Avg_DLs, 
     linetype = Package, color = Package, group = Package)
   ) +
-  geom_line() +
-  scale_y_log10()
+  geom_line(linewidth=1) +
+  scale_y_log10() +
+  theme(legend.position = "bottom") +
+  guides(
+    color = guide_legend(keywidth = 3),
+    linetype = guide_legend(keywidth = 3)
+  )
 ```
 
 ```{r}
