@@ -4,6 +4,6 @@
     "href": "index.html",
     "title": "Love Lab Package Download Stats",
     "section": "",
-    "text": "Average Bioc package downloads from unique IPs, averaged over months of Jan-Apr:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPackage\n2025\n2026\n% Change\n\n\n\n\nDESeq2\n23028\n29734\n29\n\n\napeglm\n3968\n6254\n58\n\n\ntximport\n3590\n5129\n43\n\n\ntximeta\n1046\n2085\n100\n\n\nplyranges\n1082\n1266\n17\n\n\nnullranges\n236\n405\n71\n\n\nplyxp\n108\n288\n165"
+    "text": "Average Bioc package downloads from unique IPs, averaged over months of Jan-Jun:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPackage\n2025\n2026\n% Change\n\n\n\n\nDESeq2\n23488\n29163\n24\n\n\napeglm\n4188\n6176\n48\n\n\ntximport\n3708\n5045\n36\n\n\ntximeta\n1102\n2022\n83\n\n\nplyranges\n1112\n1270\n14\n\n\nnullranges\n258\n434\n68\n\n\nplyxp\n123\n376\n205"
   }
 ]
